@@ -1,0 +1,25 @@
+RewriteEngine on
+
+Options All -Indexes
+
+order deny,allow
+
+<Files ~ "^\.(htaccess|htpasswd)$">
+deny from all
+</Files>
+
+# Paginas de Error
+ErrorDocument 404 /404
+
+# Quitar extension de archivo
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+
+# Redirige a Dominio www
+RewriteCond %{HTTP_HOST} ^mydomain.com [NC]
+RewriteRule ^(.*)$ http://www.mydomain.com/$1 [L,R=301]
